@@ -14,6 +14,8 @@ public class Colony {
     private boolean newColony;
     private ArrayList<Egg> listOfEggs = new ArrayList<>();
     private ArrayList<Larvae> listOfLarvae = new ArrayList<>();
+    boolean speciesHasMajors;
+    boolean speciesHadSuperMajors;
 
     public Colony(String typeOfAnt, boolean polygyne, boolean newColony) {
         this.typeOfAnt = typeOfAnt;
@@ -23,6 +25,7 @@ public class Colony {
         Scanner input = new Scanner(System.in);
         Random rng = new Random();
 
+        //If the colony only has one queen this will not create more
         if(polygyne == false){
             Queen queen = new Queen(12);
             this.ColonyQueen = queen;
@@ -41,5 +44,13 @@ public class Colony {
     }
 
     public Colony() {
+    }
+
+    public int getEggListSize(){
+        return listOfEggs.size();
+    }
+
+    public void addEggToEggList(Egg egg){
+        listOfEggs.add(egg);
     }
 }
