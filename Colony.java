@@ -12,15 +12,26 @@ public class Colony {
     private Queen ColonyQueen;
     //Means there are not workers yet
     private boolean newColony;
+    //Lists of objects
     private ArrayList<Egg> listOfEggs = new ArrayList<>();
     private ArrayList<Larvae> listOfLarvae = new ArrayList<>();
+    private ArrayList<Pupate> listOfPupates = new ArrayList<>();
     boolean speciesHasMajors;
     boolean speciesHadSuperMajors;
+    private int currentDay;
+    private int currentMonth;
+    private int endDay;
+    private int endMonth;
+    private boolean activeFoodSupply;
 
-    public Colony(String typeOfAnt, boolean polygyne, boolean newColony) {
+    public Colony(String typeOfAnt, boolean polygyne, boolean newColony, int endMonth) {
         this.typeOfAnt = typeOfAnt;
         this.polygyne = polygyne;
         this.newColony = newColony;
+        this.endMonth = endMonth;
+        //Converts the end month into the number of days that the sim will run
+        this.endDay = 30*endMonth;
+        this.activeFoodSupply = false;
 
         Scanner input = new Scanner(System.in);
         Random rng = new Random();
@@ -43,14 +54,39 @@ public class Colony {
         }
     }
 
+    public void increaseDay(){
+
+    }
+
+    public void increaseHour(){
+
+    }
+
     public Colony() {
     }
 
+    //Helper methods for the various Arraylists in the class.
     public int getEggListSize(){
         return listOfEggs.size();
     }
 
     public void addEggToEggList(Egg egg){
         listOfEggs.add(egg);
+    }
+
+    public void removeEggFromList(Egg egg){
+        listOfEggs.remove(egg);
+    }
+
+    public void removeLarvaeFromList(Larvae larvae){
+        listOfLarvae.remove(larvae);
+    }
+
+    public void removePupateFromList(Pupate pupate){
+        listOfPupates.remove(pupate);
+    }
+
+    public void addAntToList(Ant ant){
+        listOfAnts.add(ant);
     }
 }
