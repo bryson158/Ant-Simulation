@@ -19,6 +19,12 @@ public class Larvae extends Ant{
         this.age++;
         if(rng.nextInt(1000) == 600){
             this.removeLarvaeFromList(this);
+            System.out.println("Larvae Died");
+        }
+        if(this.age == daysToEndOfLarvae){
+            this.removeLarvaeFromList(this);
+            this.makeNewPupate(new Pupate());
+            System.out.println("Larvae Stage Ended");
         }
     }
 }

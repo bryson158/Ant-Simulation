@@ -16,9 +16,12 @@ public class Pupate extends Ant{
         this.age++;
         if(rng.nextInt(1000) == 600){
             this.removePupateFromList(this);
+            System.out.println("Pupate has died.");
         }
         if(age == daysToHatch){
-            this.
+            this.removePupateFromList(this);
+            this.addAntToList(new Ant());
+            System.out.println("Pupate Hatched");
         }
     }
 }

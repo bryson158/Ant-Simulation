@@ -3,22 +3,27 @@ import java.util.Random;
 public class Egg extends Ant{
     //Age in days
     private int age;
-    private boolean firstEggsLaid;
     private int daysUntilLarvae;
 
     Random rng = new Random();
 
     //Egg constructor
-    public Egg(int age, boolean firstEggsLaid){
-        this.age = age;
-        this.firstEggsLaid = firstEggsLaid;
+    public Egg(){
+        this.age = 0;
         this.daysUntilLarvae = rng.nextInt(10-7)+7;
     }
 
     //Increases the age of the eggs
     public void increaseAge(){
+        System.out.println("Age up");
         this.age++;
         if(timeToHatch()){
+            this.makeNewLarvae(new Larvae());
+            System.out.println("Egg has hatched");
+            this.removeEggFromList(this);
+        }
+        else if(rng.nextInt(1000) == 600){
+            System.out.println("Egg has died.");
             this.removeEggFromList(this);
         }
     }

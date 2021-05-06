@@ -3,8 +3,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Colony {
-    //Colony class for the ants
-    private String typeOfAnt;
+
     //If the ant species is polygynic then this will be true.
     private boolean polygyne;
     private ArrayList<Ant> listOfAnts = new ArrayList<>();
@@ -16,22 +15,25 @@ public class Colony {
     private ArrayList<Egg> listOfEggs = new ArrayList<>();
     private ArrayList<Larvae> listOfLarvae = new ArrayList<>();
     private ArrayList<Pupate> listOfPupates = new ArrayList<>();
+    private ArrayList<Worker> listOfWorkers = new ArrayList<>();
     boolean speciesHasMajors;
-    boolean speciesHadSuperMajors;
+    boolean speciesHasSuperMajors;
     private int currentDay;
     private int currentMonth;
     private int endDay;
     private int endMonth;
     private boolean activeFoodSupply;
 
-    public Colony(String typeOfAnt, boolean polygyne, boolean newColony, int endMonth) {
-        this.typeOfAnt = typeOfAnt;
+    public Colony(boolean polygyne, boolean newColony, int endMonth, boolean speciesHasSuperMajors,
+                  boolean speciesHasMajors) {
         this.polygyne = polygyne;
         this.newColony = newColony;
         this.endMonth = endMonth;
         //Converts the end month into the number of days that the sim will run
         this.endDay = 30*endMonth;
         this.activeFoodSupply = false;
+        this.speciesHasSuperMajors = speciesHasSuperMajors;
+        this.speciesHasMajors = speciesHasMajors;
 
         Scanner input = new Scanner(System.in);
         Random rng = new Random();
@@ -49,13 +51,27 @@ public class Colony {
             for(int i = 0; i < queens; i++){
                 //Sets the months of the age of the queen to not go over 9 years and not be less than a year
                 // old in total
-                listOfQueens.add(new Queen(rng.nextInt((9*12))+12));
+                listOfQueens.add(new Queen(1));
             }
         }
     }
 
     public void increaseDay(){
-
+        //Loops through the list of queens
+        for(int i = 0; i < listOfQueens.size(); i++){
+            listOfQueens.get(i).increaseAge();
+        }
+        System.out.println(listOfEggs.size());
+        for(int i = 0; i < listOfEggs.size(); i++){
+            listOfEggs.get(i).increaseAge();
+            System.out.println(listOfEggs.size());
+        }
+        for(int i = 0; i < listOfLarvae.size(); i++){
+            listOfLarvae.get(i).increaseAge();
+        }
+        for(int i = 0; i < listOfPupates.size(); i++){
+            listOfPupates.get(i).increaseAge();
+        }
     }
 
     public void increaseHour(){
@@ -88,5 +104,27 @@ public class Colony {
 
     public void addAntToList(Ant ant){
         listOfAnts.add(ant);
+    }
+
+    public void removeAntFromList(Ant ant){
+        listOfAnts.remove(ant);
+    }
+
+    public void makeNewAnt(){
+        //TODO- Add logic to determine the type of ant being added major super major or worker
+        listOfAnts.add(new Ant());
+    }
+
+    public void makeNewLarvae(Larvae larvae){
+        listOfLarvae.add(larvae);
+    }
+
+    public void makeNewPupate(Pupate pupate){
+        listOfPupates.add(pupate);
+    }
+
+    //Get/set methods added as needed
+    public boolean getActiveFoodSupply(){
+        return this.activeFoodSupply;
     }
 }

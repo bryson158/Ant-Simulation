@@ -7,7 +7,12 @@ public class Main {
         System.out.println("How many months do you want the simulation to run?");
         int simLength = input.nextInt();
         int daysEnd = simLength * 30;
+        System.out.println(daysEnd);
         //Creates the colony of fire ants
-        Colony fireAnts = new Colony("Fire Ant", false, true, simLength);
+        Colony fireAnts = new Colony(false, true, simLength, true, true);
+
+        for(int i = 0; i < daysEnd; i++){
+            fireAnts.increaseDay();
+        }
     }
 }

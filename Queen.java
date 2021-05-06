@@ -6,6 +6,7 @@ public class Queen extends Colony{
     private int ageInDays;
     //TODO- add logic and variable to check if the queen is a virgin
     private boolean neverLaidEggs;
+    private boolean firstEggsHatched;
 
     Random rng = new Random();
 
@@ -26,7 +27,24 @@ public class Queen extends Colony{
             int eggsToLay = rng.nextInt(5)+10;
 
             for(int i = 0; i < eggsToLay; i++){
-                addEggToEggList(new Egg(0, true));
+                addEggToEggList(new Egg());
+            }
+        }
+        else if(rng.nextBoolean()){
+            if(!this.firstEggsHatched){
+                int eggsToLay = rng.nextInt(25-15)+15;
+
+                for(int i =0; i < eggsToLay; i++){
+                    addEggToEggList(new Egg());
+                }
+                System.out.println(eggsToLay + " eggs laid");
+            }
+            else {
+                int eggsToLay = rng.nextInt(100-50)+50;
+
+                for(int i = 0; i < eggsToLay; i++){
+                    addEggToEggList(new Egg());
+                }
             }
         }
     }
@@ -37,6 +55,9 @@ public class Queen extends Colony{
             this.age++;
             this.ageInDays = 0;
         }
+
+        layingEggs();
+
         //TODO-Add logic that the queen dies randomly very small chance.
     }
 }
