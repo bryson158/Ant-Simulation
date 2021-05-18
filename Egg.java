@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class Egg extends Ant{
+public class Egg extends Colony{
     //Age in days
     private int age;
     private int daysUntilLarvae;
@@ -15,21 +15,21 @@ public class Egg extends Ant{
 
     //Increases the age of the eggs
     public void increaseAge(){
-        System.out.println("Age up");
+        //System.out.println("Age up");
         this.age++;
         if(timeToHatch()){
-            this.makeNewLarvae(new Larvae());
-            System.out.println("Egg has hatched");
+            this.makeNewLarvae();
+            //System.out.println("Egg has hatched");
             this.removeEggFromList(this);
         }
         else if(rng.nextInt(1000) == 600){
-            System.out.println("Egg has died.");
+            //System.out.println("Egg has died.");
             this.removeEggFromList(this);
         }
     }
 
     //Checks if it's time for the egg to hatch
-    private boolean timeToHatch(){
+    public boolean timeToHatch(){
         if(this.age == this.daysUntilLarvae){
             return true;
         }

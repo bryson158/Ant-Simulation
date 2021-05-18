@@ -8,9 +8,6 @@ public class Colony {
     private boolean polygyne;
     private ArrayList<Ant> listOfAnts = new ArrayList<>();
     private ArrayList<Queen> listOfQueens = new ArrayList<>();
-    private Queen ColonyQueen;
-    //Means there are not workers yet
-    private boolean newColony;
     //Lists of objects
     private ArrayList<Egg> listOfEggs = new ArrayList<>();
     private ArrayList<Larvae> listOfLarvae = new ArrayList<>();
@@ -24,10 +21,11 @@ public class Colony {
     private int endMonth;
     private boolean activeFoodSupply;
 
-    public Colony(boolean polygyne, boolean newColony, int endMonth, boolean speciesHasSuperMajors,
+    Random rng = new Random();
+
+    public Colony(boolean polygyne, int endMonth, boolean speciesHasSuperMajors,
                   boolean speciesHasMajors) {
         this.polygyne = polygyne;
-        this.newColony = newColony;
         this.endMonth = endMonth;
         //Converts the end month into the number of days that the sim will run
         this.endDay = 30*endMonth;
@@ -41,7 +39,6 @@ public class Colony {
         //If the colony only has one queen this will not create more
         if(polygyne == false){
             Queen queen = new Queen(12);
-            this.ColonyQueen = queen;
             listOfQueens.add(queen);
         }
         else {
@@ -56,16 +53,24 @@ public class Colony {
         }
     }
 
+    //TODO- remove the debugging stuff here as needed. 
     public void increaseDay(){
+        int eggsToLay = 0;
+
         //Loops through the list of queens
         for(int i = 0; i < listOfQueens.size(); i++){
             listOfQueens.get(i).increaseAge();
+            eggsToLay += listOfQueens.get(i).layingEggs();
         }
-        System.out.println(listOfEggs.size());
+        //Lays the eggs
+        layEggs(eggsToLay);
+        
+        //System.out.println(listOfEggs.size());
         for(int i = 0; i < listOfEggs.size(); i++){
             listOfEggs.get(i).increaseAge();
-            System.out.println(listOfEggs.size());
         }
+
+        System.out.println(listOfLarvae.size());
         for(int i = 0; i < listOfLarvae.size(); i++){
             listOfLarvae.get(i).increaseAge();
         }
@@ -81,13 +86,20 @@ public class Colony {
     public Colony() {
     }
 
+    private void layEggs(int num){
+        for(int i = 0; i < num; i++){
+            listOfEggs.add(new Egg());
+        }
+    }
+
     //Helper methods for the various Arraylists in the class.
     public int getEggListSize(){
         return listOfEggs.size();
     }
 
-    public void addEggToEggList(Egg egg){
-        listOfEggs.add(egg);
+    public void addEggToEggList(){
+        Egg egg = new Egg();
+        this.listOfEggs.add(egg);
     }
 
     public void removeEggFromList(Egg egg){
@@ -115,8 +127,8 @@ public class Colony {
         listOfAnts.add(new Ant());
     }
 
-    public void makeNewLarvae(Larvae larvae){
-        listOfLarvae.add(larvae);
+    public void makeNewLarvae(){
+        listOfLarvae.add(new Larvae());
     }
 
     public void makeNewPupate(Pupate pupate){
