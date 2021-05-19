@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 public class Queen extends Colony{
@@ -11,7 +12,7 @@ public class Queen extends Colony{
     Random rng = new Random();
 
     //Constructor for the queen
-    public Queen(int age) {
+    public Queen(int age) throws FileNotFoundException {
         this.age = age;
         this.neverLaidEggs = true;
         this.ageInDays = rng.nextInt(30);

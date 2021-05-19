@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 public class Larvae extends Ant{
@@ -8,7 +9,8 @@ public class Larvae extends Ant{
 
     Random rng = new Random();
 
-    public Larvae(){
+    //Constructor for the larvae class
+    public Larvae() throws FileNotFoundException {
         this.age = 0;
         //Uses rng to determine when the larvae will hatch
         this.daysToEndOfLarvae = rng.nextInt(12-6)+6;
@@ -23,8 +25,17 @@ public class Larvae extends Ant{
         }
         if(this.age == daysToEndOfLarvae){
             this.removeLarvaeFromList(this);
-            this.makeNewPupate(new Pupate());
             System.out.println("Larvae Stage Ended");
+        }
+    }
+
+    //Returns a boolean based on if it's time for the larvae to become a pupate.
+    public boolean timeToPupate(){
+        if(this.age == this.daysToEndOfLarvae){
+            return true;
+        }
+        else {
+            return false;
         }
     }
 }

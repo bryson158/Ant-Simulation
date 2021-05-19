@@ -1,8 +1,11 @@
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Colony {
+public class Colony  {
 
     //If the ant species is polygynic then this will be true.
     private boolean polygyne;
@@ -13,10 +16,8 @@ public class Colony {
     private ArrayList<Larvae> listOfLarvae = new ArrayList<>();
     private ArrayList<Pupate> listOfPupates = new ArrayList<>();
     private ArrayList<Worker> listOfWorkers = new ArrayList<>();
-    boolean speciesHasMajors;
-    boolean speciesHasSuperMajors;
-    private int currentDay;
-    private int currentMonth;
+    private boolean speciesHasMajors;
+    private boolean speciesHasSuperMajors;
     private int endDay;
     private int endMonth;
     private boolean activeFoodSupply;
@@ -24,7 +25,7 @@ public class Colony {
     Random rng = new Random();
 
     public Colony(boolean polygyne, int endMonth, boolean speciesHasSuperMajors,
-                  boolean speciesHasMajors) {
+                  boolean speciesHasMajors) throws FileNotFoundException {
         this.polygyne = polygyne;
         this.endMonth = endMonth;
         //Converts the end month into the number of days that the sim will run
@@ -53,8 +54,8 @@ public class Colony {
         }
     }
 
-    //TODO- remove the debugging stuff here as needed. 
-    public void increaseDay(){
+    //TODO- remove the debugging stuff here as needed.
+    public void increaseDay() throws FileNotFoundException {
         int eggsToLay = 0;
 
         //Loops through the list of queens
@@ -68,11 +69,19 @@ public class Colony {
         //System.out.println(listOfEggs.size());
         for(int i = 0; i < listOfEggs.size(); i++){
             listOfEggs.get(i).increaseAge();
+            if(listOfEggs.get(i).timeToHatch()){
+                makeNewLarvae();
+                listOfEggs.remove(listOfEggs.get(i));
+            }
         }
 
         System.out.println(listOfLarvae.size());
         for(int i = 0; i < listOfLarvae.size(); i++){
             listOfLarvae.get(i).increaseAge();
+            if(listOfLarvae.get(i).timeToPupate()){
+                makeNewPupate();
+                listOfLarvae.remove(listOfLarvae.get(i));
+            }
         }
         for(int i = 0; i < listOfPupates.size(); i++){
             listOfPupates.get(i).increaseAge();
@@ -83,10 +92,10 @@ public class Colony {
 
     }
 
-    public Colony() {
+    public Colony(){
     }
 
-    private void layEggs(int num){
+    private void layEggs(int num) throws FileNotFoundException {
         for(int i = 0; i < num; i++){
             listOfEggs.add(new Egg());
         }
@@ -95,11 +104,6 @@ public class Colony {
     //Helper methods for the various Arraylists in the class.
     public int getEggListSize(){
         return listOfEggs.size();
-    }
-
-    public void addEggToEggList(){
-        Egg egg = new Egg();
-        this.listOfEggs.add(egg);
     }
 
     public void removeEggFromList(Egg egg){
@@ -118,21 +122,17 @@ public class Colony {
         listOfAnts.add(ant);
     }
 
-    public void removeAntFromList(Ant ant){
-        listOfAnts.remove(ant);
-    }
-
-    public void makeNewAnt(){
+    public void makeNewAnt() throws FileNotFoundException{
         //TODO- Add logic to determine the type of ant being added major super major or worker
         listOfAnts.add(new Ant());
     }
 
-    public void makeNewLarvae(){
+    public void makeNewLarvae() throws FileNotFoundException {
         listOfLarvae.add(new Larvae());
     }
 
-    public void makeNewPupate(Pupate pupate){
-        listOfPupates.add(pupate);
+    public void makeNewPupate() throws FileNotFoundException {
+        listOfPupates.add(new Pupate());
     }
 
     //Get/set methods added as needed

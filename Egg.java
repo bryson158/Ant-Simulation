@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 public class Egg extends Colony{
@@ -8,13 +9,13 @@ public class Egg extends Colony{
     Random rng = new Random();
 
     //Egg constructor
-    public Egg(){
+    public Egg() throws FileNotFoundException {
         this.age = 0;
         this.daysUntilLarvae = rng.nextInt(10-7)+7;
     }
 
     //Increases the age of the eggs
-    public void increaseAge(){
+    public void increaseAge() throws FileNotFoundException {
         //System.out.println("Age up");
         this.age++;
         if(timeToHatch()){

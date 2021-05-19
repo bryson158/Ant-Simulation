@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 public class Pupate extends Ant{
@@ -7,12 +8,12 @@ public class Pupate extends Ant{
     Random rng = new Random();
 
     //Constructor for the pupate
-    public Pupate(){
+    public Pupate() throws FileNotFoundException {
         this.age = 0;
         this.daysToHatch = rng.nextInt();
     }
 
-    public void increaseAge(){
+    public void increaseAge() throws FileNotFoundException {
         this.age++;
         if(rng.nextInt(1000) == 600){
             this.removePupateFromList(this);

@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 public class Ant extends Colony{
@@ -6,7 +7,7 @@ public class Ant extends Colony{
 
     Random rng = new Random();
 
-    public Ant(){
+    public Ant() throws FileNotFoundException {
         this.age = 0;
     }
 }
