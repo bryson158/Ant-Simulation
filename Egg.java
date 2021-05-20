@@ -15,13 +15,16 @@ public class Egg extends Colony{
     }
 
     //Increases the age of the eggs
+    //TODO-Remove debug stuff here when finished debugging.
     public void increaseAge() throws FileNotFoundException {
         //System.out.println("Age up");
         this.age++;
         if(timeToHatch()){
             this.makeNewLarvae();
+            //System.out.println(getEggListSize());
             //System.out.println("Egg has hatched");
             this.removeEggFromList(this);
+            //System.out.println(getEggListSize());
         }
         else if(rng.nextInt(1000) == 600){
             //System.out.println("Egg has died.");
@@ -37,5 +40,12 @@ public class Egg extends Colony{
         else {
             return false;
         }
+    }
+
+    public boolean randomDeath(){
+        if(rng.nextInt(1000) == 600){
+            return true;
+        }
+        return false;
     }
 }

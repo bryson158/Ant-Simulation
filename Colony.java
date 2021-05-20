@@ -1,11 +1,9 @@
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Colony  {
+public class Colony {
 
     //If the ant species is polygynic then this will be true.
     private boolean polygyne;
@@ -24,8 +22,8 @@ public class Colony  {
 
     Random rng = new Random();
 
-    public Colony(boolean polygyne, int endMonth, boolean speciesHasSuperMajors,
-                  boolean speciesHasMajors) throws FileNotFoundException {
+    public Colony(boolean polygyne, int endMonth, boolean speciesHasSuperMajors, boolean speciesHasMajors)
+            throws FileNotFoundException {
         this.polygyne = polygyne;
         this.endMonth = endMonth;
         //Converts the end month into the number of days that the sim will run
@@ -54,10 +52,16 @@ public class Colony  {
         }
     }
 
+    //Increases the day for all ants in the colony
+    //TODO- Consider making this multithreaded
     //TODO- remove the debugging stuff here as needed.
-    public void increaseDay() throws FileNotFoundException {
+    public void increaseDay(int day, FileWriter writer) throws IOException {
         int eggsToLay = 0;
 
+        writer.write("Day: " + day+1 + "\n");
+
+        int eggsHatchedToday = 0;
+        int eggsDiedToday = 0;
         //Loops through the list of queens
         for(int i = 0; i < listOfQueens.size(); i++){
             listOfQueens.get(i).increaseAge();
@@ -65,47 +69,108 @@ public class Colony  {
         }
         //Lays the eggs
         layEggs(eggsToLay);
-        
-        //System.out.println(listOfEggs.size());
-        for(int i = 0; i < listOfEggs.size(); i++){
+
+        //TODO- make lists for the objects that need to be deleted and then loop through them and remove them from the lists
+
+        //Ages up the eggs
+        for(int i = 0; i < listOfEggs.size()-1; i++){
             listOfEggs.get(i).increaseAge();
             if(listOfEggs.get(i).timeToHatch()){
                 makeNewLarvae();
+                eggsHatchedToday++;
                 listOfEggs.remove(listOfEggs.get(i));
+                continue;
+            }
+            //Determines if the egg randomly dies
+            else if(listOfEggs.get(i).randomDeath()){
+                eggsDiedToday++;
+                listOfEggs.remove(listOfEggs.get(i));
+                continue;
             }
         }
 
-        System.out.println(listOfLarvae.size());
-        for(int i = 0; i < listOfLarvae.size(); i++){
+        //Writes information to the output file
+        writer.write(eggsHatchedToday + "- Eggs hatched today \n");
+
+        //This was added for efficiency of memory
+        if(eggsDiedToday > 0){
+            writer.write(eggsDiedToday + "- Eggs Died today \n");
+        }
+        writer.write(listOfEggs.size() + "- Eggs in the colony \n");
+
+        int larvaeHatchedToday = 0;
+        int larvaeDiedToday = 0;
+
+        //Increases the age for the larvae
+        for(int i = 0; i < listOfLarvae.size()-1; i++){
             listOfLarvae.get(i).increaseAge();
             if(listOfLarvae.get(i).timeToPupate()){
                 makeNewPupate();
+                larvaeHatchedToday++;
+                listOfLarvae.remove(listOfLarvae.get(i));
+            }
+            else if(listOfEggs.get(i).randomDeath()){
+                larvaeDiedToday++;
                 listOfLarvae.remove(listOfLarvae.get(i));
             }
         }
-        for(int i = 0; i < listOfPupates.size(); i++){
-            listOfPupates.get(i).increaseAge();
+
+        writer.write(larvaeHatchedToday + "- became pupates \n");
+        //Checks if there was any larvae that died
+        if(larvaeDiedToday > 0){
+            writer.write(larvaeDiedToday + "- larvae died");
         }
+        //Checks if there is any larvae in the list for efficiency
+        if(listOfLarvae.size() > 0){
+            writer.write(listOfLarvae.size() + "- larvae in the colony\n");
+        }
+
+        int pupateToAnts = 0;
+        int pupatesDied = 0;
+
+        //Increases the ages for the pupates
+        for(int i = 0; i < listOfPupates.size()-1; i++){
+            listOfPupates.get(i).increaseAge();
+            if(listOfPupates.get(i).timeToHatch()){
+                pupateToAnts++;
+                makeNewAnt();
+                listOfPupates.remove(listOfPupates.get(i));
+                continue;
+            }
+            if(listOfPupates.get(i).randomDeath()){
+                pupatesDied++;
+                listOfPupates.remove(listOfPupates.get(i));
+                continue;
+            }
+        }
+
+        writer.write(larvaeHatchedToday + "- pupate(s) became ants\n");
+
+        if(pupatesDied > 0){
+            writer.write(larvaeDiedToday + "- pupate(s) died\n");
+        }
+        if(listOfPupates.size() > 0){
+            writer.write(listOfPupates.size() + "- pupates in the colony");
+        }
+
+        writer.flush();
     }
 
-    public void increaseHour(){
-
-    }
 
     public Colony(){
     }
 
+    //Lays the number of eggs the queens are laying for the day
     private void layEggs(int num) throws FileNotFoundException {
         for(int i = 0; i < num; i++){
             listOfEggs.add(new Egg());
         }
     }
 
-    //Helper methods for the various Arraylists in the class.
-    public int getEggListSize(){
-        return listOfEggs.size();
-    }
 
+
+
+    //Helper methods
     public void removeEggFromList(Egg egg){
         listOfEggs.remove(egg);
     }

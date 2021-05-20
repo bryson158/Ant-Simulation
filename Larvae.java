@@ -16,16 +16,13 @@ public class Larvae extends Ant{
         this.daysToEndOfLarvae = rng.nextInt(12-6)+6;
     }
 
+    //TODO-remove debugging information when finished debugging.
     //Increases the age of the larvae
     public void increaseAge(){
         this.age++;
-        if(rng.nextInt(1000) == 600){
-            this.removeLarvaeFromList(this);
-            System.out.println("Larvae Died");
-        }
         if(this.age == daysToEndOfLarvae){
             this.removeLarvaeFromList(this);
-            System.out.println("Larvae Stage Ended");
+            //System.out.println("Larvae Stage Ended");
         }
     }
 
@@ -37,5 +34,13 @@ public class Larvae extends Ant{
         else {
             return false;
         }
+    }
+
+    //Random chance of the larvae dying
+    public boolean randomDeath(){
+        if(rng.nextInt(1000) == 600){
+            return true;
+        }
+        return false;
     }
 }

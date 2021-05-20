@@ -1,6 +1,11 @@
+import java.io.FileNotFoundException;
+
 public class Worker extends Ant{
     //in days
     private int age;
+
+    public Worker() throws FileNotFoundException {
+    }
 
     public void increaseAge(){
         this.age++;

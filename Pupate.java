@@ -15,14 +15,19 @@ public class Pupate extends Ant{
 
     public void increaseAge() throws FileNotFoundException {
         this.age++;
-        if(rng.nextInt(1000) == 600){
-            this.removePupateFromList(this);
-            System.out.println("Pupate has died.");
-        }
+    }
+
+    public boolean timeToHatch(){
         if(age == daysToHatch){
-            this.removePupateFromList(this);
-            this.addAntToList(new Ant());
-            System.out.println("Pupate Hatched");
+            return true;
         }
+        return false;
+    }
+
+    public boolean randomDeath(){
+        if(rng.nextInt(1000) == 600){
+            return true;
+        }
+        return false;
     }
 }
