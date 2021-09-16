@@ -63,9 +63,9 @@ public class Colony {
         int eggsHatchedToday = 0;
         int eggsDiedToday = 0;
         //Loops through the list of queens
-        for(int i = 0; i < listOfQueens.size(); i++){
-            listOfQueens.get(i).increaseAge();
-            eggsToLay += listOfQueens.get(i).layingEggs();
+        for (Queen listOfQueen : listOfQueens) {
+            listOfQueen.increaseAge();
+            eggsToLay += listOfQueen.layingEggs();
         }
         //Lays the eggs
         layEggs(eggsToLay);
@@ -75,22 +75,24 @@ public class Colony {
         //Ages up the eggs
         for(int i = 0; i < listOfEggs.size()-1; i++){
             listOfEggs.get(i).increaseAge();
+            //Hatches an egg if needed
             if(listOfEggs.get(i).timeToHatch()){
                 makeNewLarvae();
                 eggsHatchedToday++;
                 listOfEggs.remove(listOfEggs.get(i));
-                continue;
+                //System.out.println("Egg Hatched");
             }
             //Determines if the egg randomly dies
             else if(listOfEggs.get(i).randomDeath()){
                 eggsDiedToday++;
                 listOfEggs.remove(listOfEggs.get(i));
-                continue;
+                //System.out.println("Egg died");
             }
         }
 
         //Writes information to the output file
         writer.write(eggsHatchedToday + "- Eggs hatched today \n");
+        System.out.println(eggsHatchedToday + "- eggs hatched today");
 
         //This was added for efficiency of memory
         if(eggsDiedToday > 0){
@@ -108,14 +110,16 @@ public class Colony {
                 makeNewPupate();
                 larvaeHatchedToday++;
                 listOfLarvae.remove(listOfLarvae.get(i));
+                continue;
             }
-            else if(listOfLarvae.get(i).randomDeath()){
+            if(listOfLarvae.get(i).randomDeath()){
                 larvaeDiedToday++;
                 listOfLarvae.remove(listOfLarvae.get(i));
             }
         }
 
         writer.write(larvaeHatchedToday + "- became pupates \n");
+        System.out.println(larvaeHatchedToday + "- larvae hatched");
         //Checks if there was any larvae that died
         if(larvaeDiedToday > 0){
             writer.write(larvaeDiedToday + "- larvae died");
@@ -140,17 +144,18 @@ public class Colony {
             if(listOfPupates.get(i).randomDeath()){
                 pupatesDied++;
                 listOfPupates.remove(listOfPupates.get(i));
-                continue;
             }
         }
 
-        writer.write(larvaeHatchedToday + "- pupate(s) became ants\n");
+        writer.write(pupateToAnts + "- pupate(s) became ants\n");
 
         if(pupatesDied > 0){
-            writer.write(larvaeDiedToday + "- pupate(s) died\n");
+            writer.write(pupatesDied + "- pupate(s) died\n");
+            System.out.println(pupatesDied + " pupates died today");
         }
         if(listOfPupates.size() > 0){
             writer.write(listOfPupates.size() + "- pupates in the colony");
+            System.out.println(listOfPupates.size() + " pupates in the colony");
         }
 
         writer.flush();
