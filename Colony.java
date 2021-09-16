@@ -109,7 +109,7 @@ public class Colony {
                 larvaeHatchedToday++;
                 listOfLarvae.remove(listOfLarvae.get(i));
             }
-            else if(listOfEggs.get(i).randomDeath()){
+            else if(listOfLarvae.get(i).randomDeath()){
                 larvaeDiedToday++;
                 listOfLarvae.remove(listOfLarvae.get(i));
             }
