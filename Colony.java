@@ -106,12 +106,14 @@ public class Colony {
         //Increases the age for the larvae
         for(int i = 0; i < listOfLarvae.size()-1; i++){
             listOfLarvae.get(i).increaseAge();
+            //Checks if it is time for a larvae to become a pupate
             if(listOfLarvae.get(i).timeToPupate()){
                 makeNewPupate();
                 larvaeHatchedToday++;
                 listOfLarvae.remove(listOfLarvae.get(i));
                 continue;
             }
+            //logic for a random death of a larvae
             if(listOfLarvae.get(i).randomDeath()){
                 larvaeDiedToday++;
                 listOfLarvae.remove(listOfLarvae.get(i));
@@ -153,14 +155,15 @@ public class Colony {
             writer.write(pupatesDied + "- pupate(s) died\n");
             System.out.println(pupatesDied + " pupates died today");
         }
+        //Debugging information for the sim
         if(listOfPupates.size() > 0){
-            writer.write(listOfPupates.size() + "- pupates in the colony");
+            //TODO- make the file writer work properly and uncomment this as needed
+            //writer.write(listOfPupates.size() + "- pupates in the colony");
             System.out.println(listOfPupates.size() + " pupates in the colony");
         }
 
         writer.flush();
     }
-
 
     public Colony(){
     }
@@ -171,7 +174,6 @@ public class Colony {
             listOfEggs.add(new Egg());
         }
     }
-
 
 
 
