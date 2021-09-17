@@ -11,5 +11,6 @@ public class Worker extends Ant{
         this.age++;
         //TODO-add logic that kills the ant randomly the older the ant the more likely they are to die.
         //TODO- possibly kill the ant if it reaches a certain age.
+        //TODO- Evaluate if this is needed as the sim becomes more complete
     }
 }

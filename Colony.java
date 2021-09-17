@@ -67,10 +67,11 @@ public class Colony {
             listOfQueen.increaseAge();
             eggsToLay += listOfQueen.layingEggs();
         }
-        //Lays the eggs
-        layEggs(eggsToLay);
 
-        //TODO- make lists for the objects that need to be deleted and then loop through them and remove them from the lists
+        //Lays the eggs
+        for(int i = 0; i < listOfQueens.size(); i++){
+            layEggs(eggsToLay, listOfQueens.get(i));
+        }
 
         //Ages up the eggs
         for(int i = 0; i < listOfEggs.size()-1; i++){
@@ -144,7 +145,7 @@ public class Colony {
             listOfPupates.get(i).increaseAge();
             if(listOfPupates.get(i).timeToHatch()){
                 pupateToAnts++;
-                makeNewAnt();
+                makeNewAnt(listOfPupates.get(i));
                 listOfPupates.remove(listOfPupates.get(i));
                 continue;
             }
@@ -154,7 +155,8 @@ public class Colony {
             }
         }
 
-        writer.write(pupateToAnts + "- pupate(s) became ants\n");
+        //TODO- make the file writer work properly and uncomment this as needed
+        //writer.write(pupateToAnts + "- pupate(s) became ants\n");
 
         if(pupatesDied > 0){
             //TODO- make the file writer work properly and uncomment this as needed
@@ -167,21 +169,23 @@ public class Colony {
             //writer.write(listOfPupates.size() + "- pupates in the colony");
             System.out.println(listOfPupates.size() + " pupates in the colony");
         }
-
-        writer.flush();
+        if(pupateToAnts > 0){
+            //TODO- make the file writer work properly and uncomment this as needed
+            System.out.println(pupateToAnts + "- pupates became ants today");
+        }
+        //TODO- make the file writer work properly and uncomment this as needed
+        //writer.flush();
     }
 
     public Colony(){
     }
 
     //Lays the number of eggs the queens are laying for the day
-    private void layEggs(int num) throws FileNotFoundException {
+    private void layEggs(int num, Queen queen) throws FileNotFoundException {
         for(int i = 0; i < num; i++){
-            listOfEggs.add(new Egg());
+            listOfEggs.add(new Egg(queen.isNeverLaidEggs()));
         }
     }
-
-
 
     //Helper methods
     public void removeEggFromList(Egg egg){
@@ -200,17 +204,23 @@ public class Colony {
         listOfAnts.add(ant);
     }
 
-    public void makeNewAnt() throws FileNotFoundException{
+    //Makes a new ant
+    public void makeNewAnt(Pupate pupate) throws FileNotFoundException{
         //TODO- Add logic to determine the type of ant being added major super major or worker
-        listOfAnts.add(new Ant());
+        if(pupate.isNanitic()){
+            listOfAnts.add(new Ant(true));
+        }
+        else {
+            listOfAnts.add(new Ant(false));
+        }
     }
 
-    public void makeNewLarvae() throws FileNotFoundException {
-        listOfLarvae.add(new Larvae());
+    public void makeNewLarvae(Egg egg) throws FileNotFoundException {
+        listOfLarvae.add(new Larvae(egg.isNanitic()));
     }
 
-    public void makeNewPupate() throws FileNotFoundException {
-        listOfPupates.add(new Pupate());
+    public void makeNewPupate(Larvae larvae) throws FileNotFoundException {
+        listOfPupates.add(new Pupate(larvae.isNanitic()));
     }
 
     //Get/set methods added as needed

@@ -6,14 +6,16 @@ public class Larvae extends Ant{
     private int age;
     //In days
     private int daysToEndOfLarvae;
+    private boolean nanitic;
 
     Random rng = new Random();
 
     //Constructor for the larvae class
-    public Larvae() throws FileNotFoundException {
+    public Larvae(Boolean nanitic) throws FileNotFoundException {
         this.age = 0;
         //Uses rng to determine when the larvae will hatch
         this.daysToEndOfLarvae = rng.nextInt(12-6)+6;
+        this.nanitic = nanitic;
     }
 
     //TODO-remove debugging information when finished debugging.
@@ -42,5 +44,11 @@ public class Larvae extends Ant{
             return true;
         }
         return false;
+    }
+
+    //Get/Set methods as needed
+
+    public boolean isNanitic(){
+        return this.nanitic;
     }
 }

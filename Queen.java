@@ -53,10 +53,19 @@ public class Queen extends Colony{
 
     public void increaseAge(){
         this.ageInDays++;
-        if(ageInDays >= 30){
+        if(ageInDays >= 30) {
             this.age++;
             this.ageInDays = 0;
         }
-        //TODO-Add logic that the queen dies randomly very small chance.
+    }
+
+    //Getter/Setter methods as needed
+
+    public boolean isNeverLaidEggs(){
+        return this.neverLaidEggs;
+    }
+
+    public void setNeverLaidEggs(boolean neverLaidEggs){
+        this.neverLaidEggs = neverLaidEggs;
     }
 }

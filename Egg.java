@@ -5,29 +5,26 @@ public class Egg extends Colony{
     //Age in days
     private int age;
     private int daysUntilLarvae;
+    private boolean nanitic;
 
     Random rng = new Random();
 
     //Egg constructor
-    public Egg() throws FileNotFoundException {
+    public Egg(boolean nanitic) throws FileNotFoundException {
         this.age = 0;
         this.daysUntilLarvae = rng.nextInt(10-7)+7;
+        this.nanitic = nanitic;
     }
 
-    //Increases the age of the eggs
-    //TODO-Remove debug stuff here when finished debugging.
+    //Increases the age of the eggs.
     public void increaseAge() throws FileNotFoundException {
         //System.out.println("Age up");
         this.age++;
         if(timeToHatch()){
-            this.makeNewLarvae();
-            //System.out.println(getEggListSize());
-            //System.out.println("Egg has hatched");
+            this.makeNewLarvae();;
             this.removeEggFromList(this);
-            //System.out.println(getEggListSize());
         }
         else if(rng.nextInt(1000) == 600){
-            //System.out.println("Egg has died.");
             this.removeEggFromList(this);
         }
     }
@@ -42,10 +39,15 @@ public class Egg extends Colony{
         }
     }
 
+    //Checks if the egg will have a random death currently is 1 in 1000 chance of random death
     public boolean randomDeath(){
         if(rng.nextInt(1000) == 600){
             return true;
         }
         return false;
+    }
+
+    public boolean isNanitic(){
+        return this.nanitic;
     }
 }
