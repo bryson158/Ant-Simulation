@@ -120,15 +120,20 @@ public class Colony {
             }
         }
 
-        writer.write(larvaeHatchedToday + "- became pupates \n");
+        //TODO- make the file writer work properly and uncomment this as needed
+        //writer.write(larvaeHatchedToday + "- became pupates \n");
         System.out.println(larvaeHatchedToday + "- larvae hatched");
         //Checks if there was any larvae that died
         if(larvaeDiedToday > 0){
-            writer.write(larvaeDiedToday + "- larvae died");
+            //TODO- make the file writer work properly and uncomment this as needed
+            //writer.write(larvaeDiedToday + "- larvae died");
+            System.out.println(larvaeDiedToday + "- larvae died today");
         }
         //Checks if there is any larvae in the list for efficiency
         if(listOfLarvae.size() > 0){
-            writer.write(listOfLarvae.size() + "- larvae in the colony\n");
+            //TODO- make the file writer work properly and uncomment this as needed
+            //writer.write(listOfLarvae.size() + "- larvae in the colony\n");
+            System.out.println(listOfLarvae.size() + "- larvae in the colony");
         }
 
         int pupateToAnts = 0;
@@ -152,7 +157,8 @@ public class Colony {
         writer.write(pupateToAnts + "- pupate(s) became ants\n");
 
         if(pupatesDied > 0){
-            writer.write(pupatesDied + "- pupate(s) died\n");
+            //TODO- make the file writer work properly and uncomment this as needed
+            //writer.write(pupatesDied + "- pupate(s) died\n");
             System.out.println(pupatesDied + " pupates died today");
         }
         //Debugging information for the sim
