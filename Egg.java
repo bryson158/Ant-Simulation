@@ -17,7 +17,7 @@ public class Egg extends Colony{
     }
 
     //Increases the age of the eggs.
-    public void increaseAge() throws FileNotFoundException {
+    /*public void increaseAge() throws FileNotFoundException {
         //System.out.println("Age up");
         this.age++;
         if(timeToHatch()){
@@ -27,7 +27,7 @@ public class Egg extends Colony{
         else if(rng.nextInt(1000) == 600){
             this.removeEggFromList(this);
         }
-    }
+    }*/
 
     //Checks if it's time for the egg to hatch
     public boolean timeToHatch(){

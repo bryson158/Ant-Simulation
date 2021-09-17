@@ -13,6 +13,10 @@ public class Ant extends Colony{
         this.nanitic = nanitic;
     }
 
+    //Empty constructor
+    public Ant() {
+    }
+
     //Logic for a random death of the ant
     public boolean randomDeath(){
         //TODO- check if the ant randomly dies add logic to check if the ant is a nanitic and has an increased

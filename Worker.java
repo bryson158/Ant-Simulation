@@ -5,6 +5,8 @@ public class Worker extends Ant{
     private int age;
 
     public Worker() throws FileNotFoundException {
+        super();
+        this.age = 0;
     }
 
     public void increaseAge(){

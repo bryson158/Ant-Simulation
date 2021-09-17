@@ -75,10 +75,9 @@ public class Colony {
 
         //Ages up the eggs
         for(int i = 0; i < listOfEggs.size()-1; i++){
-            listOfEggs.get(i).increaseAge();
             //Hatches an egg if needed
             if(listOfEggs.get(i).timeToHatch()){
-                makeNewLarvae();
+                makeNewLarvae(listOfEggs.get(i));
                 eggsHatchedToday++;
                 listOfEggs.remove(listOfEggs.get(i));
                 //System.out.println("Egg Hatched");
@@ -109,7 +108,7 @@ public class Colony {
             listOfLarvae.get(i).increaseAge();
             //Checks if it is time for a larvae to become a pupate
             if(listOfLarvae.get(i).timeToPupate()){
-                makeNewPupate();
+                makeNewPupate(listOfLarvae.get(i));
                 larvaeHatchedToday++;
                 listOfLarvae.remove(listOfLarvae.get(i));
                 continue;
